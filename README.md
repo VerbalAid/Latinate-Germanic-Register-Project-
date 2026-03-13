@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-# Latinate-Germanic-Register-Project-
-=======
+
 # Latinate vs Germanic in Learner English
 
 This project builds a small language resource on over‑formal Latinate verb choices in learner English, based on the EFCAMDAT corpus.
@@ -149,4 +147,3 @@ These read `approach_a/output/preannotated_small.csv` / `_big.csv` and write:
 - `analytics/visualize_metrics.py`  
   Produces bar charts (top over‑formal lemmas and register‑label distributions) and saves them as PNGs in `metrics/`.
 
->>>>>>> 72bd487 (Initial commit: Latinate vs Germanic register project)

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 __pycache__/
 *.pyc
 *.pyo
@@ -23,3 +24,6 @@ metrics/
 # Human annotation CSVs (contain learner text / metadata)
 annotation/*_to_Human_Annotate.csv
 
+=======
+data/raw/efcamdat_full.csv
+>>>>>>> 3ca96ee (Initial commit: Latinate vs Germanic register project (without huge CSV))

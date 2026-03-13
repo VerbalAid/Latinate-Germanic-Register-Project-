@@ -1,0 +1,51 @@
+target_word,total_count,overformal_count,overformal_ratio,mean_confidence,mean_confidence_overformal,top_register_label
+alter,1,1,1.0,3.0,3.0,neutral essay
+expire,1,1,1.0,3.0,3.0,neutral essay
+consume,1,1,1.0,3.0,3.0,neutral essay
+purchase,2,2,1.0,3.0,3.0,neutral essay
+select,1,1,1.0,3.0,3.0,neutral essay
+receive,2,2,1.0,3.0,3.0,informal
+rapid,2,2,1.0,3.0,3.0,neutral essay
+observe,1,1,1.0,3.0,3.0,academic
+function,1,1,1.0,3.0,3.0,informal
+extremely,2,2,1.0,3.0,3.0,neutral essay
+prohibit,4,3,0.75,3.0,3.0,news
+desire,3,2,0.6666666666666666,3.0,3.0,neutral essay
+frequently,3,2,0.6666666666666666,3.0,3.0,neutral essay
+perform,3,2,0.6666666666666666,3.0,3.0,news
+increase,18,11,0.6111111111111112,3.0,3.0,neutral essay
+accept,9,5,0.5555555555555556,3.0,3.0,neutral essay
+decrease,8,4,0.5,3.0,3.0,neutral essay
+appear,6,3,0.5,3.0,3.0,neutral essay
+occur,2,1,0.5,3.0,3.0,ambiguous
+occasionally,2,1,0.5,3.0,3.0,informal
+complete,6,3,0.5,3.0,3.0,neutral essay
+provide,4,2,0.5,3.0,3.0,neutral essay
+obtain,4,2,0.5,3.0,3.0,neutral essay
+remain,7,3,0.42857142857142855,3.0,3.0,neutral essay
+state,22,9,0.4090909090909091,2.9545454545454546,3.0,neutral essay
+request,5,2,0.4,2.8,3.0,informal
+consider,22,8,0.36363636363636365,2.909090909090909,3.0,neutral essay
+discuss,12,4,0.3333333333333333,3.0,3.0,neutral essay
+permit,3,1,0.3333333333333333,2.3333333333333335,3.0,informal
+maintain,3,1,0.3333333333333333,3.0,3.0,neutral essay
+place,56,17,0.30357142857142855,2.9285714285714284,2.9411764705882355,neutral essay
+since,38,11,0.2894736842105263,2.8421052631578947,3.0,neutral essay
+certain,7,2,0.2857142857142857,3.0,3.0,neutral essay
+destroy,4,1,0.25,3.0,3.0,news
+primary,4,1,0.25,3.0,3.0,neutral essay
+however,48,11,0.22916666666666666,2.8333333333333335,3.0,neutral essay
+powerful,5,1,0.2,3.0,3.0,academic
+inform,5,1,0.2,2.4,3.0,neutral essay
+arrive,10,2,0.2,2.4,1.0,neutral essay
+construct,5,1,0.2,3.0,3.0,news
+large,7,1,0.14285714285714285,3.0,3.0,neutral essay
+therefore,7,1,0.14285714285714285,2.7142857142857144,3.0,neutral essay
+courageous,1,0,0.0,1.0,,ambiguous
+demonstrate,2,0,0.0,3.0,,informal
+assist,1,0,0.0,3.0,,academic
+ancient,6,0,0.0,3.0,,neutral essay
+perhaps,4,0,0.0,2.5,,neutral essay
+novel,1,0,0.0,1.0,,neutral essay
+recall,1,0,0.0,3.0,,news
+significant,1,0,0.0,3.0,,academic

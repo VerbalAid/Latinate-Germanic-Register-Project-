@@ -1,0 +1,25 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+
+# Local editor / OS files
+.DS_Store
+.vscode/
+.idea/
+
+# Large or regenerable data
+data/raw/
+approach_a/output/
+Filtering_LLM_Filtering/output/
+
+# Metrics and plots (can always be regenerated)
+metrics/
+
+# Human annotation CSVs (contain learner text / metadata)
+annotation/*_to_Human_Annotate.csv
+

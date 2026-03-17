@@ -51,10 +51,15 @@ def main() -> None:
     lex = pd.read_csv(lex_path)
     if "latinate" not in lex.columns:
         raise ValueError(f"Expected 'latinate' column in {lex_path}")
-    lex_targets = (
-        lex["latinate"].astype(str).str.strip().str.lower().replace("nan", "")
-    )
+    lex["latinate"] = lex["latinate"].astype(str).str.strip().str.lower()
+    lex["germanic"] = lex["germanic"].astype(str).str.strip().str.lower()
+    lex_targets = lex["latinate"].replace("nan", "")
     lex_targets = [w for w in lex_targets.tolist() if w]
+    lat_to_germ = {
+        row["latinate"]: row["germanic"]
+        for _, row in lex.iterrows()
+        if row["latinate"]
+    }
 
     df["register_markedness_llm"] = pd.to_numeric(
         df.get("register_markedness_llm", 0), errors="coerce"
@@ -104,6 +109,22 @@ def main() -> None:
         picked_rows.extend(chosen)
 
     sampled = pd.DataFrame(picked_rows)
+
+    if not sampled.empty:
+        # Add lexicon-based metadata columns
+        sampled["latinate_word"] = sampled["target_word"].astype(str)
+        sampled["germanic_word"] = sampled["target_word"].map(lat_to_germ).fillna("")
+
+        # Add empty HUMAN annotation columns
+        for col in [
+            "register_markedness (human)",
+            "substitution_naturalness (human)",
+            "simpler_alternative (human)",
+            "confidence (human)",
+            "annotator_id",
+        ]:
+            if col not in sampled.columns:
+                sampled[col] = ""
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     sampled.to_csv(out_path, index=False)

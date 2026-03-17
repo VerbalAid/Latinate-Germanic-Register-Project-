@@ -122,6 +122,7 @@ def main() -> None:
             "substitution_naturalness (human)",
             "simpler_alternative (human)",
             "confidence (human)",
+            "comment (human)",
             "annotator_id",
         ]:
             if col not in sampled.columns:

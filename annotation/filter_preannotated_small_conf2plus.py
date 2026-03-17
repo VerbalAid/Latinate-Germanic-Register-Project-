@@ -117,6 +117,7 @@ def main() -> None:
 
         # Add empty HUMAN annotation columns
         for col in [
+            "context_label (human)",
             "register_markedness (human)",
             "substitution_naturalness (human)",
             "simpler_alternative (human)",

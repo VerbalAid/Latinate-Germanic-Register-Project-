@@ -1,0 +1,2 @@
+scope,n_register_pairs,n_substitution_pairs,kappa_register,kappa_substitution,accuracy_register,accuracy_substitution
+all_annotators_pooled_vs_llm,67,67,,-0.2566633761105627,0.8208955223880597,0.43283582089552236

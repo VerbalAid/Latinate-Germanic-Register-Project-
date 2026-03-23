@@ -1,0 +1,5 @@
+n_pairs_register,n_pairs_substitution,kappa_register_vs_llm,kappa_substitution_vs_llm,accuracy_register_vs_llm,accuracy_substitution_vs_llm,human_register_variance_on_merged,llm_register_variance_on_merged,human_substitution_variance_on_merged,llm_substitution_variance_on_merged,annotator,n_rows_merged
+17,17,,-0.30769230769230776,0.7058823529411765,0.47058823529411764,True,False,True,True,Darragh,38
+17,17,,-0.3262411347517729,0.8823529411764706,0.35294117647058826,True,False,True,True,Josu,38
+16,16,,-0.3333333333333333,0.8125,0.4375,True,False,True,True,Numidia,36
+17,17,,0.012903225806451604,0.8823529411764706,0.47058823529411764,True,False,True,True,molina,38

@@ -22,6 +22,19 @@ def main() -> None:
     """
     project_root = Path(__file__).resolve().parents[1]
     pre_path = project_root / "approach_a" / "output" / "preannotated_small.csv"
+    if not pre_path.exists():
+        alt = (
+            project_root
+            / "Filtering_LLM_Filtering"
+            / "output"
+            / "preannotated_small.csv"
+        )
+        if alt.exists():
+            pre_path = alt
+        else:
+            raise FileNotFoundError(
+                f"preannotated_small.csv not found at {pre_path} or {alt}"
+            )
 
     df = pd.read_csv(pre_path)
 

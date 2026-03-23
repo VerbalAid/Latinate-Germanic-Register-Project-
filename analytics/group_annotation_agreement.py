@@ -13,6 +13,10 @@ Outputs (metrics/):
   - group_human_vs_llm_by_annotator.csv
   - group_human_vs_llm_pooled.csv
   - group_descriptive_analytics.csv
+  - group_essay_topics_by_annotator.csv
+  - group_essay_topics_summary.csv
+  - group_essay_topics_pooled.csv
+  - group_cefr_band_counts.csv
 """
 
 from __future__ import annotations
@@ -228,6 +232,124 @@ def descriptive_block(df: pd.DataFrame, annotator: str) -> dict:
     return out
 
 
+def export_essay_topic_and_cefr_analytics(
+    annotators: dict[str, pd.DataFrame], metrics_dir: Path
+) -> None:
+    """
+    Essay `topic` is a categorical task label (e.g. 'Summarizing a story').
+    Summaries use the *mode* (most common topic) per annotator — there is no numeric
+    'average topic'; we also report distribution and mean CEFR numeric per topic slice.
+    """
+    detail_rows: list[dict] = []
+    summary_rows: list[dict] = []
+    cefr_rows: list[dict] = []
+    pool_topics: list[str] = []
+
+    for ann, df in annotators.items():
+        d = df.copy()
+        reg = to_numeric_binary(d[HUMAN_REG])
+        mask = reg.notna()
+        sub = d.loc[mask]
+        if len(sub) == 0:
+            summary_rows.append(
+                {
+                    "annotator": ann,
+                    "n_human_labeled_rows": 0,
+                    "most_common_essay_topic": "",
+                    "n_rows_in_most_common_topic": 0,
+                    "pct_in_most_common_topic": float("nan"),
+                    "n_distinct_topics": 0,
+                    "mean_cefr_numeric_overall": float("nan"),
+                }
+            )
+            continue
+
+        if "topic" not in sub.columns:
+            topics = pd.Series(["(no topic column)"] * len(sub))
+        else:
+            topics = sub["topic"].fillna("").astype(str).str.strip()
+            topics = topics.replace("", "(missing topic)")
+
+        pool_topics.extend(topics.tolist())
+
+        if "cefr" in sub.columns:
+            for cefr, cnt in sub["cefr"].astype(str).str.strip().value_counts().items():
+                cefr_rows.append({"annotator": ann, "cefr_band": cefr, "n_rows": int(cnt)})
+
+        vc = topics.value_counts()
+        total = int(len(sub))
+        cefr_all = (
+            float(to_numeric_optional(sub["cefr_numeric"]).mean())
+            if "cefr_numeric" in sub.columns
+            else float("nan")
+        )
+
+        for topic, cnt in vc.items():
+            tmask = topics == topic
+            tdf = sub.loc[tmask]
+            detail_rows.append(
+                {
+                    "annotator": ann,
+                    "essay_topic": topic,
+                    "n_human_labeled_rows": int(cnt),
+                    "pct_of_annotator_labels": round(100.0 * cnt / total, 1),
+                    "mean_register_markedness": float(
+                        to_numeric_binary(tdf[HUMAN_REG]).mean()
+                    ),
+                    "mean_substitution_naturalness": float(
+                        to_numeric_binary(tdf[HUMAN_SUB]).mean()
+                    )
+                    if HUMAN_SUB in tdf.columns
+                    else float("nan"),
+                    "mean_cefr_numeric": float(
+                        to_numeric_optional(tdf["cefr_numeric"]).mean()
+                    )
+                    if "cefr_numeric" in tdf.columns
+                    else float("nan"),
+                }
+            )
+
+        mode_topic = str(vc.index[0])
+        summary_rows.append(
+            {
+                "annotator": ann,
+                "n_human_labeled_rows": total,
+                "most_common_essay_topic": mode_topic,
+                "n_rows_in_most_common_topic": int(vc.iloc[0]),
+                "pct_in_most_common_topic": round(100.0 * vc.iloc[0] / total, 1),
+                "n_distinct_topics": int(topics.nunique()),
+                "mean_cefr_numeric_overall": cefr_all,
+            }
+        )
+
+    detail_df = pd.DataFrame(detail_rows)
+    if not detail_df.empty:
+        detail_df = detail_df.sort_values(
+            ["annotator", "n_human_labeled_rows"], ascending=[True, False]
+        )
+    detail_df.to_csv(metrics_dir / "group_essay_topics_by_annotator.csv", index=False)
+    pd.DataFrame(summary_rows).to_csv(
+        metrics_dir / "group_essay_topics_summary.csv", index=False
+    )
+
+    if pool_topics:
+        pool_series = pd.Series(pool_topics)
+        pvc = pool_series.value_counts()
+        tot = int(pvc.sum())
+        pool_df = pd.DataFrame(
+            {
+                "essay_topic": pvc.index.astype(str),
+                "n_rows_pooled_human_labels": pvc.values.astype(int),
+                "pct_of_pooled": np.round(100.0 * pvc.values / tot, 1),
+            }
+        )
+        pool_df.to_csv(metrics_dir / "group_essay_topics_pooled.csv", index=False)
+
+    pd.DataFrame(cefr_rows).to_csv(
+        metrics_dir / "group_cefr_band_counts.csv", index=False
+    )
+
+
 def main() -> None:
     METRICS_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -406,6 +528,8 @@ def main() -> None:
         METRICS_DIR / "group_descriptive_analytics.csv", index=False
     )
 
+    export_essay_topic_and_cefr_analytics(annotators, METRICS_DIR)
+
     # Console summary
     print("Wrote:")
     for f in (
@@ -413,6 +537,10 @@ def main() -> None:
         "group_human_vs_llm_by_annotator.csv",
         "group_human_vs_llm_pooled.csv",
         "group_descriptive_analytics.csv",
+        "group_essay_topics_by_annotator.csv",
+        "group_essay_topics_summary.csv",
+        "group_essay_topics_pooled.csv",
+        "group_cefr_band_counts.csv",
     ):
         print(f"  {METRICS_DIR / f}")
     print(f"\nOverlap keys (reference first 10 or fallback): {len(overlap_keys)} items")

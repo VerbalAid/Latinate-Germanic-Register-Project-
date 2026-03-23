@@ -31,7 +31,7 @@ TARGET_L1S = ("Spanish", "French")
 TARGET_CEFR = ("A1", "A2", "B1", "B2", "C1")
 
 # Maximum number of essays per (L1, CEFR) cell              -play with this to get more matches 
-N_PER_CELL = 500
+N_PER_CELL = 10000
 
 
 def load_big_lexicon(lexicon_path: Path):

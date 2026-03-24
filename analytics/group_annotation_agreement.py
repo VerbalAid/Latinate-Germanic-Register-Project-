@@ -29,13 +29,14 @@ import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 ANNOTATION_DIR = PROJECT_ROOT / "annotation"
+GROUP_ANNOTATION_DIR = ANNOTATION_DIR / "Group_annotations"
 METRICS_DIR = PROJECT_ROOT / "metrics"
 
 ANNOTATOR_FILES: dict[str, Path] = {
-    "Darragh": ANNOTATION_DIR / "Darragh_annotations.csv",
-    "Josu": ANNOTATION_DIR / "Josu_annotation.csv",
-    "Numidia": ANNOTATION_DIR / "Numidia_annotations-def.csv",
-    "molina": ANNOTATION_DIR
+    "Darragh": GROUP_ANNOTATION_DIR / "Darragh_annotations.csv",
+    "Josu": GROUP_ANNOTATION_DIR / "Josu_annotation.csv",
+    "Numidia": GROUP_ANNOTATION_DIR / "Numidia_annotations-def.csv",
+    "molina": GROUP_ANNOTATION_DIR
     / "molina_preannotated_small_conf2plus - preannotated_small_conf2plus.csv",
 }
 

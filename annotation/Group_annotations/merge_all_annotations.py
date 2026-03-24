@@ -2,7 +2,7 @@
 Merge all group small-lexicon annotation CSVs into one file.
 
 Output:
-  annotation/all_annotations_combined.csv
+  annotation/Group_annotations/all_annotations_combined.csv
 
 Each row is one row from an annotator sheet; `annotation_source` identifies the file.
 Rows are stacked in a stable order (Darragh, Josu, Numidia, molina).
@@ -14,23 +14,26 @@ from pathlib import Path
 
 import pandas as pd
 
-PROJECT = Path(__file__).resolve().parents[1]
+# This file lives in annotation/Group_annotations/
+PROJECT = Path(__file__).resolve().parents[2]
 ANN = PROJECT / "annotation"
+GROUP = ANN / "Group_annotations"
 
 SOURCES: list[tuple[str, Path]] = [
-    ("Darragh_annotations.csv", ANN / "Darragh_annotations.csv"),
-    ("Josu_annotation.csv", ANN / "Josu_annotation.csv"),
-    ("Numidia_annotations-def.csv", ANN / "Numidia_annotations-def.csv"),
+    ("Darragh_annotations.csv", GROUP / "Darragh_annotations.csv"),
+    ("Josu_annotation.csv", GROUP / "Josu_annotation.csv"),
+    ("Numidia_annotations-def.csv", GROUP / "Numidia_annotations-def.csv"),
     (
         "molina_preannotated_small_conf2plus.csv",
-        ANN / "molina_preannotated_small_conf2plus - preannotated_small_conf2plus.csv",
+        GROUP / "molina_preannotated_small_conf2plus - preannotated_small_conf2plus.csv",
     ),
 ]
 
-OUT = ANN / "all_annotations_combined.csv"
+OUT = GROUP / "all_annotations_combined.csv"
 
 
 def main() -> None:
+    GROUP.mkdir(parents=True, exist_ok=True)
     parts: list[pd.DataFrame] = []
     for label, path in SOURCES:
         if not path.exists():
